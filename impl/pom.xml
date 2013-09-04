@@ -79,6 +79,11 @@
             <artifactId>sakai-kernel-util</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.sakaiproject.kernel</groupId>
+            <artifactId>sakai-kernel-storage-util</artifactId>
+        </dependency>
+
         <!-- testing dependencies -->
         <dependency>
             <groupId>org.springframework</groupId>

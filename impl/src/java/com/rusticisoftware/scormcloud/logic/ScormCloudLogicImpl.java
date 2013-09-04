@@ -282,7 +282,7 @@ public class ScormCloudLogicImpl implements ScormCloudLogic, Observer {
         try {
             return getScormEngineService(pkg.getContext())
                     .getCourseService()
-                        .GetPropertyEditorUrl(pkg.getScormCloudId(), styleSheetUrl, null);
+                        .GetPropertyEditorUrl(pkg.getScormCloudId(), styleSheetUrl);
         } catch (Exception e) {
             log.error("Encountered exception while trying to get " +
                       "property editor url for package with SCORM " +

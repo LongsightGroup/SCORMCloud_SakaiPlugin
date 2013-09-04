@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="scormcloud-tool:war">
+    <output-path>$PROJECT_DIR$/tool/target</output-path>
+    <root id="archive" name="scormcloud-tool-0.8.8.war">
+      <element id="artifact" artifact-name="scormcloud-tool:war exploded" />
+    </root>
+  </artifact>
+</component>
