@@ -36,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.sakaiproject.component.cover.ComponentManager;
 import org.sakaiproject.content.api.ContentEntity;
 import org.sakaiproject.content.api.ContentResourceEdit;
 import org.sakaiproject.content.api.ResourceToolAction;
@@ -44,6 +45,9 @@ import org.sakaiproject.content.api.ContentHostingService;
 import org.sakaiproject.entity.api.Entity;
 import org.sakaiproject.entity.api.ResourceProperties;
 import org.sakaiproject.entity.api.ResourcePropertiesEdit;
+import org.sakaiproject.event.api.NotificationService;
+import org.sakaiproject.site.api.Site;
+import org.sakaiproject.site.cover.SiteService;
 import org.sakaiproject.tool.api.Tool;
 import org.sakaiproject.tool.api.ToolSession;
 import org.sakaiproject.tool.cover.SessionManager;
@@ -99,7 +103,7 @@ public class RequestController extends HttpServlet {
 	private ScormCloudLogic logic;
 	private ExternalLogic extLogic;
 	private ScormCloudToolBean toolBean;
-	
+
 	private void initInterfaces(){
 	    if(appContext == null){
 	        appContext = WebApplicationContextUtils.getWebApplicationContext(getServletContext());
@@ -116,6 +120,7 @@ public class RequestController extends HttpServlet {
 	        toolBean = (ScormCloudToolBean)appContext
 	            .getBean("scormCloudToolBean");
 	    }
+
 	}
 
 	private void doSecurityFilterOnAction(HttpServletRequest request, 
@@ -881,7 +886,19 @@ public class RequestController extends HttpServlet {
         resource.setContentType("application/zip");
         resource.setResourceType("scormcloud.type");
         //resource.setHidden();
-        getContentHostingService().commitResource(resource);
+        String siteId = ToolManager.getCurrentPlacement().getContext();
+        boolean isSitePublished = false;
+        try {
+            Site site = SiteService.getSite(siteId);
+            isSitePublished = site.isPublished();
+        } catch (Exception e) {
+        }
+        if (isSitePublished) {
+            getContentHostingService().commitResource(resource);
+        } else {
+            // don't notify people if site isn't published
+            getContentHostingService().commitResource(resource, NotificationService.NOTI_NONE);
+        }
 	}
 	
 	private String endToolHelperSession(ToolSession toolSession, ResourceToolActionPipe pipe) {
