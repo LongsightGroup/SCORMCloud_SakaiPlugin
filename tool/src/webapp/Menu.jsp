@@ -16,8 +16,9 @@
 			    	<a href="controller?action=viewSignup">Sign Up</a>
 			    </c:otherwise>
 		    </c:choose>
+            <a href="controller?action=viewOverallGroupReport">Overall Report</a>
 	    </c:if>
-	    <a href="controller?action=viewOverallGroupReport">Overall Report</a>
+
 	    <%--<a href="controller?action=updatePackage">Update Package</a>--%>
 	</div>
 </c:if>

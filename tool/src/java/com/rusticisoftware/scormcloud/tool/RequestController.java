@@ -123,7 +123,7 @@ public class RequestController extends HttpServlet {
 
 	}
 
-	private void doSecurityFilterOnAction(HttpServletRequest request, 
+	private boolean doSecurityFilterOnAction(HttpServletRequest request,
 	        HttpServletResponse response, String action) throws Exception {
 	    boolean admin = logic.isCurrentUserPluginAdmin() || logic.isCurrentUserSakaiAdmin();
 	    boolean actionAllowed = actionsAllowedByNonAdmin.contains(action);
@@ -137,22 +137,25 @@ public class RequestController extends HttpServlet {
                     "SCORM Cloud plugin disallow you from performing " +
                     "this action. Please contact your local Sakai or SCORM Plugin " +
                     "administrator if you feel you've recieved this message in error.");
-            return;
+            return false;
         }
+        return true;
 	}
 	
 	public void doGet (HttpServletRequest request, HttpServletResponse response) throws ServletException {
 		try{
 		    initInterfaces();
-		    
+		    String firstPass=null;
 		    log.debug("paramaterMap size = " + request.getParameterMap().size());
 			PrintWriter output = response.getWriter();
 			String action = request.getParameter("action");
+            firstPass=request.getParameter("firstpass");
 			
 			if(action == null || action.length() < 1){
 				log.debug("No action specified. Looking for one in servlet init params");
 				try { 
-				    action = getServletConfig().getInitParameter("action"); 
+				    action = getServletConfig().getInitParameter("action");
+                    firstPass=getServletConfig().getInitParameter("firstpass");
 				    log.debug("Found action " + action + " in init params");
 				}
 				catch (Exception e) {
@@ -165,7 +168,9 @@ public class RequestController extends HttpServlet {
                 return;
             }
             
-            doSecurityFilterOnAction(request, response, action);
+            if (firstPass == null && !doSecurityFilterOnAction(request, response, action)){
+                return;
+            }
             
             if(action.equals("viewPackages")){
                 processViewPackagesRequest(request, response);
@@ -193,6 +198,7 @@ public class RequestController extends HttpServlet {
 			}
             else if(action.equals("previewPackage")){
 			    processPreviewRequest(request, response);
+
 			}
             else if(action.equals("launchPackage")){
 				processLaunchRequest(request, response);
@@ -270,7 +276,9 @@ public class RequestController extends HttpServlet {
 		        cause = cause.getCause();
 		    }*/
 			throw new ServletException(e);
+
 		}
+        return;
 	}
 
     private void processLaunchReportageRequest(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -512,7 +520,7 @@ public class RequestController extends HttpServlet {
             String returnUrl = endToolHelperSession(toolSession, pipe);
             returnUrl = URLEncoder.encode(returnUrl);
             //response.sendRedirect(getAbsoluteUrlTo(request, "/scormcloud-tool/controller?action=viewPackageProperties&id=" + packageId));
-            response.sendRedirect("/scormcloud-tool/controller?action=viewPackageProperties&id=" + packageId + "&returnUrl=" + returnUrl);
+            response.sendRedirect("/scormcloud-tool/controller?action=viewPackageProperties&firstpass=false&id=" + packageId + "&returnUrl=" + returnUrl);
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -537,8 +545,9 @@ public class RequestController extends HttpServlet {
             //String previewUrl = logic.getPackagePreviewUrl(pkg, absoluteRedirectUrl);
             //response.sendRedirect(previewUrl);
             
-            endToolHelperSession(toolSession, pipe);
-            response.sendRedirect(getAbsoluteUrlTo(request, "/scormcloud-tool/controller?action=previewPackage&id=" + packageId));
+            //endToolHelperSession(toolSession, pipe);
+            response.sendRedirect(getAbsoluteUrlTo(request, "/scormcloud-tool/controller?firstpass=false&action=previewPackage&id=" + packageId));
+            return;
         }
         catch (Exception e) {
             throw new RuntimeException(e);
@@ -1019,6 +1028,7 @@ public class RequestController extends HttpServlet {
         request.setAttribute("url", previewUrl);
         RequestDispatcher rd = request.getRequestDispatcher(PAGE_REGISTRATION_LAUNCH);
         rd.forward(request, response);
+        return;
     }
 
 	/**
