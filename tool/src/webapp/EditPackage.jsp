@@ -15,7 +15,8 @@
         WebApplicationContextUtils.getWebApplicationContext(application);
     ScormCloudToolBean bean = (ScormCloudToolBean)context.getBean("scormCloudToolBean");
 
-    bean.allowOnlyAdmin(request, response);
+    //this is already checked in the calling method
+    //bean.allowOnlyAdmin(request, response);
     
     pageContext.setAttribute("bean", bean);
     pageContext.setAttribute("isConfigured", bean.isPluginConfigured());
