@@ -70,13 +70,20 @@ public class ScormCloudEntityProducer implements EntityProducer {
      {
          String id = null;
          String context = "";
-         
-         log.debug("In parseEntityReference: reference = " + reference);
 
-         // for content hosting resources and collections
          if (reference.startsWith(REFERENCE_ROOT)) {
              // parse out the local resource id
-             id = reference.replaceFirst(REFERENCE_ROOT + Entity.SEPARATOR + "content", "");
+             if (reference.startsWith(REFERENCE_ROOT + Entity.SEPARATOR + "attachment")) {
+                 id = reference.replaceFirst(REFERENCE_ROOT, "");
+                 ref.updateReference(reference);
+                 ref.set(REFERENCE_ROOT + Entity.SEPARATOR + "attachment", null, id, null, context);
+             }
+             else{
+                 id = reference.replaceFirst(REFERENCE_ROOT + Entity.SEPARATOR + "content", "");
+                 ref.set(REFERENCE_ROOT, null, id, null, context);
+                 ref.updateReference(REFERENCE_ROOT + id);
+             }
+
          }
 
          // doesn't refer to scormcloud type
@@ -84,8 +91,8 @@ public class ScormCloudEntityProducer implements EntityProducer {
              return false;
          }
 
-         ref.set(REFERENCE_ROOT, null, id, null, context);
-         ref.updateReference(REFERENCE_ROOT + id);
+
+
          return true;
      }
 
