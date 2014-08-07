@@ -37,7 +37,7 @@
 	});
 </script>
 
-<title>SCORM Cloud Reportage Report</title>
+<title>SCORM Cloud Reportage</title>
 </head>
 <body onload="<%= request.getAttribute("sakai.html.body.onload") %>">
 <div class="portletBody">

@@ -40,14 +40,14 @@
 	});
 </script>
 
-<title>SCORM Cloud Reportage Report</title>
+<title>SCORM Cloud Reportage</title>
 </head>
 <body onload="<%= request.getAttribute("sakai.html.body.onload") %>">
 <div class="portletBody">
 
 	<%@ include file="Menu.jsp" %>
 	
-	<h3 class="insColor insBak insBorder">SCORM Cloud Reportage Report</h3>
+	<h3 class="insColor insBak insBorder">SCORM Cloud Reportage</h3>
 	
 	<%@ include file="Messages.jsp" %>
 	
@@ -56,8 +56,6 @@
 		Shown below are reports which show aggregate information about 
 		all of the registrations that <b>${learnerName}</b>
 		has launched for the resource <b>${pkgName}</b>.
-		To access this report in the Reportage application directly, please 
-		<a target="_blank" href="controller?action=launchReportage&learnerId=${learnerId}&courseId=${courseId}">click here</a>.
 		Report data current as of ${reportDate} UTC.
 	</div>
 	

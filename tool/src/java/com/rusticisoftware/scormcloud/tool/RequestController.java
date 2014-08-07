@@ -762,6 +762,8 @@ public class RequestController extends HttpServlet {
             propertyMap.put("assignmentName", "%"+assignmentSearch+"%");
             request.setAttribute("assignmentSearch", assignmentSearch);
         }
+
+        propertyMap.put("locationId", extLogic.getCurrentLocationId());
         
         List<ScormCloudRegistration> regList = logic.getRegistrationsWherePropertiesLike(propertyMap);
         
