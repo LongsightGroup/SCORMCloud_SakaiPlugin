@@ -23,7 +23,7 @@
     <version>0.8.8</version>
 
     <modules>
-        <!-- module>SCORMCloud_JavaLibrary</module-->
+        <module>SCORMCloud_JavaLibrary</module>
         <module>api</module>
         <module>impl</module>
         <module>pack</module>
