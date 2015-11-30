@@ -4,6 +4,13 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
                       http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.sakaiproject</groupId>
+        <artifactId>master</artifactId>
+        <version>10-SNAPSHOT</version>
+        <relativePath>../master/pom.xml</relativePath>
+    </parent>
+
     <name>Sakai ScormCloud</name>
     <groupId>com.rusticisoftware.scormcloud</groupId>
     <artifactId>scormcloud</artifactId>
@@ -15,87 +22,12 @@
     <packaging>pom</packaging>
     <version>0.8.8</version>
 
-    <!-- Sakai master pom is the parent -->
-    <parent>
-        <artifactId>master</artifactId>
-        <groupId>org.sakaiproject</groupId>
-        <version>10-SNAPSHOT</version>
-        <relativePath>../master/pom.xml</relativePath>
-    </parent>
-
-    <profiles>
-        <profile>
-            <id>full</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <modules>
-	    	<module>SCORMCloud_JavaLibrary</module>
-                <module>api</module>
-                <module>impl</module>
-                <module>pack</module>
-                <module>tool</module>
-            </modules>
-        </profile>
-	<profile>
-		<id>SCORMCloud_JavaLibrary</id>
-		<modules>
-			<module>SCORMCloud_JavaLibrary</module>
-		</modules>
-	</profile>
-        <profile>
-            <id>tool</id>
-            <modules>
-                <module>tool</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>api</id>
-            <modules>
-                <module>api</module>
-            </modules>
-        </profile>
-        <profile>
-            <id>ddl</id>
-            <modules>
-                <module>impl/src/ddl</module>
-            </modules>
-        </profile>
-    </profiles>
-
-    <!-- handles the management of all related dependencies -->
-    <dependencyManagement>
-        <dependencies>
-            <!-- needed until EB is in the Sakai master dependency management -->
-            <dependency>
-                <groupId>org.sakaiproject.entitybroker</groupId>
-                <artifactId>entitybroker-api</artifactId>
-                <version>${sakai.version}</version>
-                <scope>provided</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.sakaiproject.entitybroker</groupId>
-                <artifactId>entitybroker-utils</artifactId>
-                <version>${sakai.version}</version>
-            </dependency>
-              <dependency>
-        	    <groupId>commons-fileupload</groupId>
-        	    <artifactId>commons-fileupload</artifactId>
-                <version>${sakai.commons.fileupload.version}</version>
-                <scope>provided</scope>
-             </dependency>
-            <dependency>
-                <groupId>org.sakaiproject</groupId>
-                <artifactId>generic-dao</artifactId>
-                <version>${generic-dao.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-mock</artifactId>
-                <version>2.0.6</version>
-                <scope>test</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+    <modules>
+        <!-- module>SCORMCloud_JavaLibrary</module-->
+        <module>api</module>
+        <module>impl</module>
+        <module>pack</module>
+        <module>tool</module>
+    </modules>
 
 </project>
