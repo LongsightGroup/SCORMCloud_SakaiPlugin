@@ -19,12 +19,20 @@
 
     <!-- the base is parent -->
     <parent>
-        <groupId>org.sakaiproject</groupId>
+        <groupId>com.rusticisoftware.scormcloud</groupId>
         <artifactId>scormcloud</artifactId>
-        <version>${scormcloud.version}</version>
+        <version>0.8.8</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <dependencies />
+    <dependencies>
+      		<dependency>
+      		  <groupId>org.sakaiproject.assignment</groupId>
+      		  <artifactId>sakai-assignment-api</artifactId>
+      		  <version>${sakai.version}</version>
+      		  <scope>provided</scope>
+      		</dependency>
+    </dependencies>
 
     <build>
         <resources>
