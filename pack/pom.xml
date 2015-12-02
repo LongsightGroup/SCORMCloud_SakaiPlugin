@@ -21,19 +21,15 @@
     <parent>
         <groupId>com.rusticisoftware.scormcloud</groupId>
         <artifactId>scormcloud</artifactId>
-        <version>${project.version}</version>
+        <version>0.8.8</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <dependencies>
-
-        <!-- internal dependencies -->
         <dependency>
             <groupId>com.rusticisoftware.scormcloud</groupId>
             <artifactId>scormcloud-impl</artifactId>
-            <version>${project.version}</version>
         </dependency>
-
     </dependencies>
 
     <build />
